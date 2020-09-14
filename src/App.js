@@ -3,7 +3,7 @@ import axios from "axios";
 import Dropdown from "react-dropdown";
 import parse from "html-react-parser";
 
-import { formatSeasons } from "./utils/formatSeasons";
+// import { formatSeasons } from "./utils/formatSeasons";
 
 import Episodes from "./components/Episodes";
 import { fetchShow } from './api/fetchShow'
@@ -30,7 +30,17 @@ export default function App() {
   //     console.log(err)
   //   })
 
- 
+  const formatSeasons = (allEpisodes) => {
+    const seasons = {};
+    allEpisodes.forEach((e) => {
+      if (!seasons.hasOwnProperty(`Season ${e.season}`)) {
+        seasons[`Season ${e.season}`] = [];
+      }
+      seasons[`Season ${e.season}`].push(e);
+    });
+    return seasons;
+  };
+  
 
   const handleSelect = e => {
     setSelectedSeason(e.value);

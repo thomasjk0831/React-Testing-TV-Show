@@ -610,7 +610,21 @@ const mockApi = {
   
 test('render without error', async ()=>{
     fetchShow.mockResolvedValueOnce(mockApi)
-    formatSeasons.mockResolvedValueOnce(mockApi)
     render(<App />)
-})
 
+    // wait for the show to render
+await screen.findAllByText(/stranger things/i);
+const dropdown = await screen.findByText(/select a season/i);
+userEvent.click(dropdown);
+const season1 = await screen.findByText(/season 1/i);
+userEvent.click(season1);
+let ep1 = await screen.findAllByText(/chapter one/i);
+expect(ep1[0]).toBeVisible();
+
+userEvent.click(dropdown);
+const season2 = await screen.findByText(/season 2/i);
+userEvent.click(season2);
+ep1 = await screen.findAllByText(/chapter one/i);
+expect(ep1[0]).toBeVisible();
+
+})
